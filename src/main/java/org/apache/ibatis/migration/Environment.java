@@ -1,5 +1,5 @@
 /**
- *    Copyright 2010-2018 the original author or authors.
+ *    Copyright 2010-2019 the original author or authors.
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -78,84 +78,80 @@ public class Environment {
   }
 
   public static class Builder {
-    protected String timeZone = "GMT+0:00";
-    protected String delimiter = ";";
-    protected String scriptCharset = Charset.defaultCharset().name();
-    protected boolean fullLineDelimiter;
-    protected boolean sendFullScript;
-    protected boolean autoCommit;
-    protected boolean removeCrs;
-    protected boolean ignoreWarnings = true;
-    protected String driverPath;
+    String timeZone = "GMT+0:00";
+    String delimiter = ";";
+    String scriptCharset = Charset.defaultCharset().name();
+    boolean fullLineDelimiter;
+    boolean sendFullScript;
+    boolean autoCommit;
+    boolean removeCrs;
+    boolean ignoreWarnings = true;
+    String driverPath;
     protected String driver;
     protected String url;
     protected String username;
     protected String password;
 
-    protected String hookBeforeUp;
-    protected String hookBeforeEachUp;
-    protected String hookAfterEachUp;
-    protected String hookAfterUp;
-    protected String hookBeforeDown;
-    protected String hookBeforeEachDown;
-    protected String hookAfterEachDown;
-    protected String hookAfterDown;
+    String hookBeforeUp;
+    String hookBeforeEachUp;
+    String hookAfterEachUp;
+    String hookAfterUp;
+    String hookBeforeDown;
+    String hookBeforeEachDown;
+    String hookAfterEachDown;
+    String hookAfterDown;
 
-    protected String hookBeforeNew;
-    protected String hookAfterNew;
+    String hookBeforeNew;
+    String hookAfterNew;
 
     protected Properties variables = new Properties();
 
-    public Builder() {
-      super();
-    }
-
-    public Builder timeZone(String timeZone) {
+    Builder timeZone(String timeZone) {
       if (timeZone != null) {
         this.timeZone = timeZone;
       }
       return this;
     }
 
-    public Builder delimiter(String delimiter) {
+    Builder delimiter(String delimiter) {
       if (delimiter != null)
         this.delimiter = delimiter;
       return this;
     }
 
-    public Builder scriptCharset(String scriptCharset) {
+    Builder scriptCharset(String scriptCharset) {
       if (scriptCharset != null) {
         this.scriptCharset = scriptCharset;
       }
       return this;
     }
 
-    public Builder fullLineDelimiter(boolean fullLineDelimiter) {
+    Builder fullLineDelimiter(boolean fullLineDelimiter) {
       this.fullLineDelimiter = fullLineDelimiter;
       return this;
     }
 
-    public Builder sendFullScript(boolean sendFullScript) {
+    Builder sendFullScript(boolean sendFullScript) {
       this.sendFullScript = sendFullScript;
       return this;
     }
 
-    public Builder autoCommit(boolean autoCommit) {
+    Builder autoCommit(boolean autoCommit) {
       this.autoCommit = autoCommit;
       return this;
     }
 
-    public Builder removeCrs(boolean removeCrs) {
+    Builder removeCrs(boolean removeCrs) {
       this.removeCrs = removeCrs;
       return this;
     }
 
-    public Builder ignoreWarnings(boolean ignoreWarnings) {
+    Builder ignoreWarnings(boolean ignoreWarnings) {
       this.ignoreWarnings = ignoreWarnings;
       return this;
     }
 
-    public Builder driverPath(String driverPath) {
+    Builder driverPath(String driverPath) {
       this.driverPath = driverPath;
       return this;
     }
@@ -180,52 +176,52 @@ public class Environment {
       return this;
     }
 
-    public Builder hookBeforeUp(String hookBeforeUp) {
+    Builder hookBeforeUp(String hookBeforeUp) {
       this.hookBeforeUp = hookBeforeUp;
       return this;
     }
 
-    public Builder hookBeforeEachUp(String hookBeforeEachUp) {
+    Builder hookBeforeEachUp(String hookBeforeEachUp) {
       this.hookBeforeEachUp = hookBeforeEachUp;
       return this;
     }
 
-    public Builder hookAfterEachUp(String hookAfterEachUp) {
+    Builder hookAfterEachUp(String hookAfterEachUp) {
       this.hookAfterEachUp = hookAfterEachUp;
       return this;
     }
 
-    public Builder hookAfterUp(String hookAfterUp) {
+    Builder hookAfterUp(String hookAfterUp) {
       this.hookAfterUp = hookAfterUp;
       return this;
     }
 
-    public Builder hookBeforeDown(String hookBeforeDown) {
+    Builder hookBeforeDown(String hookBeforeDown) {
       this.hookBeforeDown = hookBeforeDown;
       return this;
     }
 
-    public Builder hookBeforeEachDown(String hookBeforeEachDown) {
+    Builder hookBeforeEachDown(String hookBeforeEachDown) {
       this.hookBeforeEachDown = hookBeforeEachDown;
       return this;
     }
 
-    public Builder hookAfterEachDown(String hookAfterEachDown) {
+    Builder hookAfterEachDown(String hookAfterEachDown) {
       this.hookAfterEachDown = hookAfterEachDown;
       return this;
     }
 
-    public Builder hookAfterDown(String hookAfterDown) {
+    Builder hookAfterDown(String hookAfterDown) {
       this.hookAfterDown = hookAfterDown;
       return this;
     }
 
-    public Builder hookBeforeNew(String hookBeforeNew) {
+    Builder hookBeforeNew(String hookBeforeNew) {
       this.hookBeforeNew = hookBeforeNew;
       return this;
     }
 
-    public Builder hookAfterNew(String hookAfterNew) {
+    Builder hookAfterNew(String hookAfterNew) {
       this.hookAfterNew = hookAfterNew;
       return this;
     }
@@ -237,7 +233,7 @@ public class Environment {
       return this;
     }
 
-    public Environment build() {
+    Environment build() {
       return new Environment(this);
     }
   }

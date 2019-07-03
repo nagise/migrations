@@ -1,5 +1,5 @@
 /**
- *    Copyright 2010-2018 the original author or authors.
+ *    Copyright 2010-2019 the original author or authors.
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -57,10 +57,10 @@ public class PropertiesEnvironmentLoader implements EnvironmentLoader {
     hook_after_new
   }
 
-  protected static final List<String> SETTING_KEYS;
+  private static final List<String> SETTING_KEYS;
 
   static {
-    ArrayList<String> list = new ArrayList<String>();
+    ArrayList<String> list = new ArrayList<>();
     SETTING_KEY[] keys = SETTING_KEY.values();
     for (SETTING_KEY key : keys) {
       list.add(key.name());
@@ -73,11 +73,9 @@ public class PropertiesEnvironmentLoader implements EnvironmentLoader {
     return buildEnvironment(readProperties(environmentName, paths));
   }
 
-  protected Properties readProperties(String environmentName, SelectedPaths paths) {
+  private Properties readProperties(String environmentName, SelectedPaths paths) {
     File file = new File(paths.getEnvPath(), environmentName + ".properties");
-    FileInputStream inputStream = null;
-    try {
-      inputStream = new FileInputStream(file);
+    try (final FileInputStream inputStream = new FileInputStream(file)) {
       Properties prop = new Properties();
       prop.load(inputStream);
       return prop;
@@ -85,18 +83,10 @@ public class PropertiesEnvironmentLoader implements EnvironmentLoader {
       throw new MigrationException("Environment file missing: " + file.getAbsolutePath());
     } catch (IOException e) {
       throw new MigrationException("Error loading environment properties.  Cause: " + e, e);
-    } finally {
-      if (inputStream != null) {
-        try {
-          inputStream.close();
-        } catch (IOException e) {
-          // ignore
-        }
-      }
     }
   }
 
-  protected Environment buildEnvironment(Properties prop) {
+  private Environment buildEnvironment(Properties prop) {
     // User defined variables.
     Properties variables = new Properties();
     Set<Entry<Object, Object>> entries = prop.entrySet();

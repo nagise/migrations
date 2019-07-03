@@ -72,7 +72,7 @@ public enum Util {
   }
 
   public static File file(File path, String fileName) {
-    return new File(path.getAbsolutePath() + File.separator + fileName);
+    return new File(path, fileName);
   }
 
   public static String horizontalLine(String caption, int length) {

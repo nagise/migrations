@@ -1,5 +1,5 @@
 /**
- *    Copyright 2010-2018 the original author or authors.
+ *    Copyright 2010-2019 the original author or authors.
  *
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
@@ -192,18 +192,6 @@ public abstract class BaseCommand implements Command {
     } finally {
       reader.close();
     }
-  }
-
-  protected File environmentFile() {
-    return file(paths.getEnvPath(), options.getEnvironment() + ".properties");
-  }
-
-  protected File existingEnvironmentFile() {
-    File envFile = environmentFile();
-    if (!envFile.exists()) {
-      throw new MigrationException("Environment file missing: " + envFile.getAbsolutePath());
-    }
-    return envFile;
   }
 
   protected Environment environment() {
