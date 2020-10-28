@@ -24,6 +24,8 @@ import java.util.List;
 import java.util.StringTokenizer;
 
 import org.apache.ibatis.migration.Change;
+import org.apache.ibatis.migration.ConnectionProvider;
+import org.apache.ibatis.migration.Environment;
 import org.apache.ibatis.migration.MigrationException;
 import org.apache.ibatis.migration.operations.DatabaseOperation;
 import org.apache.ibatis.migration.operations.StatusOperation;
@@ -33,6 +35,11 @@ public final class ScriptCommand extends BaseCommand {
 
   public ScriptCommand(SelectedOptions options) {
     super(options);
+  }
+
+  public ScriptCommand(SelectedOptions options, ConnectionProvider connectionProvider,
+      Environment environment) {
+    super(options, connectionProvider, environment);
   }
 
   @Override

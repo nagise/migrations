@@ -15,12 +15,19 @@
  */
 package org.apache.ibatis.migration.commands;
 
+import org.apache.ibatis.migration.ConnectionProvider;
+import org.apache.ibatis.migration.Environment;
 import org.apache.ibatis.migration.operations.BootstrapOperation;
 import org.apache.ibatis.migration.options.SelectedOptions;
 
 public final class BootstrapCommand extends BaseCommand {
   public BootstrapCommand(SelectedOptions options) {
     super(options);
+  }
+
+  public BootstrapCommand(SelectedOptions options, ConnectionProvider connectionProvider,
+      Environment environment) {
+    super(options, connectionProvider, environment);
   }
 
   @Override

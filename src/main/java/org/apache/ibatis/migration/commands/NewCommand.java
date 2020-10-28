@@ -20,6 +20,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
 
+import org.apache.ibatis.migration.ConnectionProvider;
+import org.apache.ibatis.migration.Environment;
 import org.apache.ibatis.migration.MigrationException;
 import org.apache.ibatis.migration.hook.MigrationHook;
 import org.apache.ibatis.migration.hook.NewHookContext;
@@ -32,6 +34,11 @@ public final class NewCommand extends BaseCommand {
 
   public NewCommand(SelectedOptions options) {
     super(options);
+  }
+
+  public NewCommand(SelectedOptions options, ConnectionProvider connectionProvider,
+      Environment environment) {
+    super(options, connectionProvider, environment);
   }
 
   @Override
