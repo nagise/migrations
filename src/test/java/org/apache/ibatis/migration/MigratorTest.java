@@ -172,6 +172,11 @@ public class MigratorTest {
   }
 
   private void testMissingScript() throws Exception {
+    if (TestUtil.systemIsWindows()) {
+      // システムがWindowsの場合はスキップ
+      // リネームをしようとした際にファイルが使用中になってしまう
+      return;
+    }
     out.clearLog();
     File original = new File(dir + File.separator + "scripts", "20080827200216_create_procs.sql");
     File renamed = new File(dir + File.separator + "scripts", "20080827200216_create_procs._sql");

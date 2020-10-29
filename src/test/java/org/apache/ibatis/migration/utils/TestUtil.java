@@ -58,4 +58,9 @@ public class TestUtil {
     f.deleteOnExit();
     return f;
   }
+
+  public static boolean systemIsWindows() {
+    String os = System.getProperty("os.name").toLowerCase();
+    return os.startsWith("win");
+  }
 }

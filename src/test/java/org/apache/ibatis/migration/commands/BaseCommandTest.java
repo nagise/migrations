@@ -26,6 +26,7 @@ import java.util.Properties;
 import java.util.Scanner;
 
 import org.apache.ibatis.io.Resources;
+import org.apache.ibatis.migration.utils.TestUtil;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -51,6 +52,15 @@ public class BaseCommandTest {
 
   @Test
   public void testNonexistentFile() throws Exception {
+    if (TestUtil.systemIsWindows()) {
+      // システムがWindowsの場合はスキップ
+      // FileNotFoundException のメッセージはOSレベルで出されていて
+      // OSの言語設定によって国際化される。
+      // このテストは具体的にやりすぎでよろしくない
+      // https://nagise.hatenablog.jp/entry/2020/10/28/194600
+      return;
+    }
+
     String srcPath = "/tmp/NoSuchFile.sql";
     expectedException.expect(FileNotFoundException.class);
     expectedException.expectMessage(is(srcPath + " (No such file or directory)"));
