@@ -15,6 +15,8 @@
  */
 package org.apache.ibatis.migration.commands;
 
+import org.apache.ibatis.migration.ConnectionProvider;
+import org.apache.ibatis.migration.Environment;
 import org.apache.ibatis.migration.operations.StatusOperation;
 import org.apache.ibatis.migration.options.SelectedOptions;
 
@@ -23,6 +25,11 @@ public final class StatusCommand extends BaseCommand {
 
   public StatusCommand(SelectedOptions options) {
     super(options);
+  }
+
+  public StatusCommand(SelectedOptions options, ConnectionProvider connectionProvider,
+      Environment environment) {
+    super(options, connectionProvider, environment);
   }
 
   @Override

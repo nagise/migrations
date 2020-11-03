@@ -15,6 +15,8 @@
  */
 package org.apache.ibatis.migration.commands;
 
+import org.apache.ibatis.migration.ConnectionProvider;
+import org.apache.ibatis.migration.Environment;
 import org.apache.ibatis.migration.MigrationException;
 import org.apache.ibatis.migration.options.SelectedOptions;
 
@@ -62,6 +64,50 @@ public enum Commands {
         return new VersionCommand(selectedOptions);
       case STATUS:
         return new StatusCommand(selectedOptions);
+      default:
+        return new Command() {
+          @Override
+          public void execute(String... params) {
+            System.out.println("unknown command");
+          }
+        };
+    }
+  }
+
+  public static Command resolveCommand(String commandString, SelectedOptions selectedOptions,
+      ConnectionProvider connectionProvider, Environment environment) {
+    for (Commands command : values()) {
+      if (command.name().startsWith(commandString)) {
+        return createCommand(command, selectedOptions, connectionProvider, environment);
+      }
+    }
+
+    throw new MigrationException("Attempt to execute unknown command: " + commandString);
+  }
+
+  private static Command createCommand(Commands aResolvedCommand, SelectedOptions selectedOptions,
+      ConnectionProvider connectionProvider, Environment environment) {
+    switch (aResolvedCommand) {
+      case INFO:
+        return new InfoCommand(System.out);
+      case INIT:
+        return new InitializeCommand(selectedOptions, connectionProvider, environment);
+      case BOOTSTRAP:
+        return new BootstrapCommand(selectedOptions, connectionProvider, environment);
+      case NEW:
+        return new NewCommand(selectedOptions, connectionProvider, environment);
+      case UP:
+        return new UpCommand(selectedOptions, false, connectionProvider, environment);
+      case DOWN:
+        return new DownCommand(selectedOptions, connectionProvider, environment);
+      case PENDING:
+        return new PendingCommand(selectedOptions, connectionProvider, environment);
+      case SCRIPT:
+        return new ScriptCommand(selectedOptions, connectionProvider, environment);
+      case VERSION:
+        return new VersionCommand(selectedOptions, connectionProvider, environment);
+      case STATUS:
+        return new StatusCommand(selectedOptions, connectionProvider, environment);
       default:
         return new Command() {
           @Override

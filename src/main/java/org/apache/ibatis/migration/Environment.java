@@ -106,7 +106,11 @@ public class Environment {
   private final VariableReplacer parser = new VariableReplacer(Arrays.asList(sysProps, envVars));
 
   public Environment(File file) {
-    Properties prop = mergeProperties(file);
+    this(loadPropertiesFromFile(file));
+  }
+
+  public Environment(Properties prop) {
+    prop = mergeProperties(prop);
 
     this.timeZone = readProperty(prop, SETTING_KEY.time_zone.name(), "GMT+0:00");
     this.delimiter = readProperty(prop, SETTING_KEY.delimiter.name(), ";");
@@ -140,9 +144,7 @@ public class Environment {
         .forEach(e -> variables.put(e.getKey(), parser.replace((String) e.getValue())));
   }
 
-  private Properties mergeProperties(File file) {
-    // 1. Load from file.
-    Properties prop = loadPropertiesFromFile(file);
+  private Properties mergeProperties(Properties prop) {
     // 2. Read environment variables (existing entries are overwritten).
     envVars.entrySet().stream().filter(e -> isMigrationsKey(e.getKey()))
         .forEach(e -> prop.put(normalizeKey(e.getKey()), e.getValue()));
@@ -160,7 +162,7 @@ public class Environment {
     return key.length() > PREFIX.length() && key.toUpperCase(Locale.ENGLISH).startsWith(PREFIX);
   }
 
-  private Properties loadPropertiesFromFile(File file) {
+  private static Properties loadPropertiesFromFile(File file) {
     Properties properties = new Properties();
     try (FileInputStream inputStream = new FileInputStream(file)) {
       properties.load(inputStream);

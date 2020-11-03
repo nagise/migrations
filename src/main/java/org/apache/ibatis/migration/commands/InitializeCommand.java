@@ -18,6 +18,8 @@ package org.apache.ibatis.migration.commands;
 import java.io.File;
 import java.util.Properties;
 
+import org.apache.ibatis.migration.ConnectionProvider;
+import org.apache.ibatis.migration.Environment;
 import org.apache.ibatis.migration.MigrationException;
 import org.apache.ibatis.migration.options.SelectedOptions;
 import org.apache.ibatis.migration.utils.Util;
@@ -25,6 +27,11 @@ import org.apache.ibatis.migration.utils.Util;
 public final class InitializeCommand extends BaseCommand {
   public InitializeCommand(SelectedOptions selectedOptions) {
     super(selectedOptions);
+  }
+
+  public InitializeCommand(SelectedOptions selectedOptions, ConnectionProvider connectionProvider,
+      Environment environment) {
+    super(selectedOptions, connectionProvider, environment);
   }
 
   @Override

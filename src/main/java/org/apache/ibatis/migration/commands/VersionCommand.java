@@ -17,6 +17,8 @@ package org.apache.ibatis.migration.commands;
 
 import java.math.BigDecimal;
 
+import org.apache.ibatis.migration.ConnectionProvider;
+import org.apache.ibatis.migration.Environment;
 import org.apache.ibatis.migration.MigrationException;
 import org.apache.ibatis.migration.operations.VersionOperation;
 import org.apache.ibatis.migration.options.SelectedOptions;
@@ -24,6 +26,11 @@ import org.apache.ibatis.migration.options.SelectedOptions;
 public final class VersionCommand extends BaseCommand {
   public VersionCommand(SelectedOptions options) {
     super(options);
+  }
+
+  public VersionCommand(SelectedOptions selectedOptions, ConnectionProvider connectionProvider,
+      Environment environment) {
+    super(selectedOptions, connectionProvider, environment);
   }
 
   @Override

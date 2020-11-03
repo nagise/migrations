@@ -15,7 +15,7 @@
  */
 package org.apache.ibatis.migration.commands;
 
-import static org.apache.ibatis.migration.utils.Util.file;
+import static org.apache.ibatis.migration.utils.Util.*;
 
 import java.io.File;
 import java.io.FileReader;
@@ -71,6 +71,8 @@ public abstract class BaseCommand implements Command {
 
   protected final SelectedPaths paths;
 
+  protected ConnectionProvider connectionProvider;
+
   protected BaseCommand(SelectedOptions selectedOptions) {
     this.options = selectedOptions;
     this.paths = selectedOptions.getPaths();
@@ -82,6 +84,28 @@ public abstract class BaseCommand implements Command {
         }
       });
     }
+    try {
+      this.connectionProvider = new JdbcConnectionProvider(environment().getDriver(), environment().getUrl(),
+          environment().getUsername(), environment().getPassword());
+    } catch (Exception e) {
+      throw new MigrationException("Error creating ScriptRunner.  Cause: " + e, e);
+    }
+  }
+
+  protected BaseCommand(SelectedOptions selectedOptions, ConnectionProvider connectionProvider,
+      Environment environment) {
+    this.environment = environment;
+    this.options = selectedOptions;
+    this.paths = selectedOptions.getPaths();
+    if (options.isQuiet()) {
+      this.printStream = new PrintStream(new OutputStream() {
+        @Override
+        public void write(int b) {
+          // throw away output
+        }
+      });
+    }
+    this.connectionProvider = connectionProvider;
   }
 
   public void setDriverClassLoader(ClassLoader aDriverClassLoader) {
@@ -208,6 +232,7 @@ public abstract class BaseCommand implements Command {
     if (environment != null) {
       return environment;
     }
+    // TODO Propertisをクラスパスから読めるようにする
     environment = new Environment(existingEnvironmentFile());
     return environment;
   }
@@ -226,12 +251,7 @@ public abstract class BaseCommand implements Command {
   }
 
   protected ConnectionProvider getConnectionProvider() {
-    try {
-      return new JdbcConnectionProvider(environment().getDriver(), environment().getUrl(), environment().getUsername(),
-          environment().getPassword());
-    } catch (Exception e) {
-      throw new MigrationException("Error creating ScriptRunner.  Cause: " + e, e);
-    }
+    return this.connectionProvider;
   }
 
   private ClassLoader getDriverClassLoader() {
